@@ -7,3 +7,5 @@ build
 dist
 **/.idea/*
 .Python
+/bin/**/*
+/include/**/*
