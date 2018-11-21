@@ -5,3 +5,8 @@ data.csv
 
 build
 dist
+**/.idea/*
+.Python
+/bin/**/*
+/include/**/*
+/lib/**/*

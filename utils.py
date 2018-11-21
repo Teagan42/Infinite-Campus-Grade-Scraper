@@ -6,6 +6,8 @@ import urllib
 import urlparse
 
 
+
+
 def send_email(smtp_address, smtp_username, smtp_password, address, subject, message):
     """sends an email using the gmail account info specifed in config"""
     send_info = "From: %s\nTo: %s\nSubject: %s\nX-Mailer: My-Mail\n\n" % (smtp_username, address, subject)
@@ -27,11 +29,21 @@ def read_csv(file_name):
         final_list.append(x)
     return final_list
 
-def add_to_csv(file_name, single_list):
+def add_to_csv(file_name, grades):
     """adds a list to the specified csv file"""
     final_list = read_csv(file_name)
     writer = csv.writer(open(file_name, 'wb'), delimiter=',',quoting=csv.QUOTE_MINIMAL)
-    final_list.append(single_list)
+    grade_dict = {grades[index]['key']: grades[index] for index in range(0, len(grades))}
+    found = False
+    for list_item in final_list:
+        key = list_item[0]
+        if key in grade_dict:
+            list_item[4] = grade_dict[key]['grade']
+            del grade_dict[key]
+
+    for key, grade in grade_dict.items():
+        final_list.append([grade['key'], grade['date'], grade['course'], grade['assignment'], grade['grade']])
+
     for x in final_list:
         writer.writerow(x)
 
